@@ -26,6 +26,8 @@ npm start
 
 Open http://localhost:3000. Stop the server with Ctrl+C. All data lives in memory and resets on every restart.
 
+Two warnings are harmless and you can ignore them: `npm install` on npm 11 may mention install scripts of `fsevents`, and on Node 26 every Playwright run prints `DeprecationWarning: module.register() is deprecated`. Neither is an error.
+
 Optional: copy the settings file once, so tests and the server share the same values.
 
 macOS / Linux:
