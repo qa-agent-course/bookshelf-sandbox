@@ -64,7 +64,7 @@ router.post('/api/orders', requireAuth, async (req, res) => {
   if (cart.lines.size === 0) {
     return sendError(res, 409, 'CART_EMPTY', 'The cart is empty');
   }
-  if (settings.orders.oneCheckoutAtATime && cart.checkoutPending) {
+  if (settings.revision > 1 && cart.checkoutPending) {
     return sendError(res, 409, 'ORDER_IN_PROGRESS', 'This order is already being placed');
   }
 
@@ -101,7 +101,7 @@ router.get('/api/orders/:orderId', requireAuth, (req, res) => {
   const order = store.orders.find((o) => o.id === req.params.orderId);
   if (order) res.locals.log.orderOwner = order.userId;
   const visible =
-    order && (settings.orders.readScope !== 'owner' || order.userId === req.auth.userId);
+    order && (settings.revision < 2 || order.userId === req.auth.userId);
   if (!visible) return sendError(res, 404, 'ORDER_NOT_FOUND', 'No such order');
   return res.json(order);
 });

@@ -45,7 +45,7 @@ function checkQuantity(quantity, alreadyInCart = 0) {
   if (typeof quantity !== 'number' || !Number.isFinite(quantity)) {
     return 'quantity must be a number';
   }
-  if (settings.cart.quantityValidation === 'server') {
+  if (settings.revision > 1) {
     if (!Number.isInteger(quantity) || quantity < 1 || quantity > settings.cart.maxCopiesPerBook) {
       return QUANTITY_MESSAGE;
     }
@@ -125,7 +125,7 @@ router.post('/api/cart/promo', requireAuth, (req, res) => {
   if (cart.promoCodes.includes(promo.code)) {
     return sendError(res, 409, 'PROMO_ALREADY_APPLIED', 'This promo code is already applied');
   }
-  if (cart.promoCodes.length >= settings.cart.maxPromoCodes) {
+  if (cart.promoCodes.length >= (settings.revision > 1 ? 1 : 5)) {
     return sendError(res, 409, 'PROMO_ALREADY_APPLIED', 'A promo code is already applied to this cart');
   }
   const before = priceCart(cartLines(cart), []);

@@ -16,9 +16,13 @@ function promoDiscount(promo, subtotal) {
   return 0;
 }
 
+function freeDeliveryAbove() {
+  return settings.pricing.freeDeliveryCents - (settings.revision > 1 ? 1 : 0);
+}
+
 function deliveryFor(option, amountAfterDiscount, hasLines) {
   if (!hasLines || option === 'pickup') return 0;
-  return amountAfterDiscount > settings.pricing.freeDeliveryAboveCents
+  return amountAfterDiscount > freeDeliveryAbove()
     ? 0
     : settings.pricing.standardDeliveryCents;
 }
@@ -49,7 +53,7 @@ function priceCart(lines, promoCodes, deliveryOption = 'standard') {
 
   let freeDeliveryRemainingCents = 0;
   if (deliveryCents > 0) {
-    freeDeliveryRemainingCents = settings.pricing.freeDeliveryAboveCents + 1 - afterDiscount;
+    freeDeliveryRemainingCents = freeDeliveryAbove() + 1 - afterDiscount;
   }
 
   return {

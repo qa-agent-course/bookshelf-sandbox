@@ -60,7 +60,7 @@ function createApp() {
   });
 
   app.get('/app-config.js', (req, res) => {
-    const config = { release: settings.release, ui: settings.ui };
+    const config = { release: settings.release, revision: settings.revision };
     res.type('application/javascript').set('Cache-Control', 'no-store');
     res.send(`window.BOOKSHELF_CONFIG = ${JSON.stringify(config)};\n`);
   });

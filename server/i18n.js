@@ -16,17 +16,19 @@ const pluralTable = {
 };
 
 function pluralCategory(lang, n) {
-  if (settings.i18n.pluralEngine === 'intl') {
+  if (settings.revision > 1) {
     return new Intl.PluralRules(lang).select(n);
   }
   return (pluralTable[lang] || pluralTable.en)(n);
 }
 
+const keyAliases = settings.revision > 1 ? { 'book.addToBasket': 'book.addToCart' } : {};
+
 function readBundle(lang) {
   const raw = JSON.parse(fs.readFileSync(path.join(bundleDir, `${lang}.json`), 'utf8'));
   const bundle = {};
   for (const [key, value] of Object.entries(raw)) {
-    bundle[settings.i18n.keyAliases[key] || key] = value;
+    bundle[keyAliases[key] || key] = value;
   }
   return bundle;
 }

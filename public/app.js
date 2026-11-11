@@ -2,7 +2,7 @@
 (function () {
   'use strict';
 
-  const CONFIG = window.BOOKSHELF_CONFIG || { ui: {} };
+  const CONFIG = window.BOOKSHELF_CONFIG || { revision: 1 };
   const TOKEN_KEY = 'bookshelf.token';
   const ROLE_KEY = 'bookshelf.role';
   const EMAIL_KEY = 'bookshelf.email';
@@ -405,7 +405,7 @@
       postcode: { min: 3, max: 10 },
     };
 
-    if (CONFIG.ui.checkoutLabels === 'all') {
+    if (CONFIG.revision > 1) {
       form.querySelectorAll('input[name]').forEach((input) => {
         if (input.type === 'radio' || form.querySelector(`label[for="${input.id}"]`)) return;
         const label = document.createElement('label');
@@ -438,13 +438,13 @@
       return hint;
     }
 
-    if (CONFIG.ui.fieldErrors === 'text') {
+    if (CONFIG.revision > 1) {
       Object.keys(rules).forEach((name) => hintFor(form.elements[name]));
     }
 
     function showProblem(input, problem) {
       input.classList.toggle('invalid', Boolean(problem));
-      if (CONFIG.ui.fieldErrors !== 'text') return;
+      if (CONFIG.revision < 2) return;
       const hint = hintFor(input);
       hint.textContent = problem || '';
       if (problem) input.setAttribute('aria-invalid', 'true');
@@ -492,14 +492,14 @@
       const inputs = Object.keys(rules).map((name) => form.elements[name]);
       const allValid = inputs.map(checkField).every(Boolean);
       if (!allValid) {
-        if (CONFIG.ui.fieldErrors === 'text') formError.textContent = t('checkout.fixErrors');
+        if (CONFIG.revision > 1) formError.textContent = t('checkout.fixErrors');
         return;
       }
       const body = {
         address: Object.fromEntries(inputs.map((input) => [input.name, input.value.trim()])),
         deliveryOption: deliveryOption(),
       };
-      if (CONFIG.ui.lockSubmit) submit.disabled = true;
+      if (CONFIG.revision > 1) submit.disabled = true;
       try {
         const order = await withSession('/api/orders', { method: 'POST', body });
         console.info(`order placed ${order.id}`);

@@ -15,11 +15,12 @@ const fixed = process.env.SANDBOX_FIXED === '1';
 
 module.exports = {
   port: intFromEnv('PORT', 3000),
-  // The app is a training target with deliberate weaknesses: never expose it to a network.
+  // Local only: never expose this app to a network.
   host: process.env.HOST || '127.0.0.1',
   jitterMs: intFromEnv('SANDBOX_JITTER_MS', 800),
   fixed,
   release: fixed ? '1.1.0' : '1.0.0',
+  revision: fixed ? 2 : 1,
   demoPassword: process.env.DEMO_PASSWORD || 'change-me-locally',
   tokenTtlSeconds: 3600,
   paymentDelayMs: 500,
@@ -27,24 +28,9 @@ module.exports = {
 
   pricing: {
     standardDeliveryCents: 490,
-    freeDeliveryAboveCents: fixed ? 2999 : 3000,
+    freeDeliveryCents: 3000,
   },
   cart: {
     maxCopiesPerBook: 10,
-    quantityValidation: fixed ? 'server' : 'client',
-    maxPromoCodes: fixed ? 1 : 5,
-  },
-  orders: {
-    readScope: fixed ? 'owner' : 'signed-in',
-    oneCheckoutAtATime: fixed,
-  },
-  i18n: {
-    pluralEngine: fixed ? 'intl' : 'table',
-    keyAliases: fixed ? { 'book.addToBasket': 'book.addToCart' } : {},
-  },
-  ui: {
-    checkoutLabels: fixed ? 'all' : 'default',
-    fieldErrors: fixed ? 'text' : 'outline',
-    lockSubmit: fixed,
   },
 };

@@ -21,7 +21,7 @@ const SAMPLE = `2026-11-03T09:12:01.004Z INFO  server started port=3000 jitterMs
 2026-11-03T09:26:58.402Z INFO  req=a2e0 POST /api/orders 201 509ms user=u_002 order=ORD-1003 total=2240
 2026-11-03T09:26:58.547Z INFO  req=a2e1 POST /api/orders 201 503ms user=u_002 order=ORD-1004 total=2240
 2026-11-03T09:27:10.880Z WARN  req=a2e9 GET /api/books 200 1790ms slow request q=moby
-2026-11-03T09:30:02.115Z ERROR req=a2f3 POST /api/cart/items 400 3ms user=g_017 error=BOOK_NOT_FOUND bookId=99
+2026-11-03T09:30:02.115Z ERROR req=a2f3 POST /api/cart/items 404 3ms user=g_017 error=BOOK_NOT_FOUND bookId=99
 `;
 
 fs.mkdirSync(path.dirname(logFile), { recursive: true });

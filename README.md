@@ -128,6 +128,7 @@ data/          seed data: books, fake users, promo codes, two earlier orders
 openapi/       bookshelf.openapi.yaml, the API contract
 docs/          PRODUCT_BRIEF.md and CONVENTIONS.md (ticket, test case and bug report formats)
 tickets/       BS-101 ... BS-108 as Markdown, plus jira-import.csv
+tests/seed.spec.ts  seed test for Playwright test agents (planner, generator)
 tests/e2e/     search.spec.ts, cart-badge.spec.ts
 tests/api/     empty: API tests from P14 go here
 logs/          server.log (sample + new lines while the server runs), browser-console.log (sample)
