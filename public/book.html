@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Book - Bookshelf</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app-config.js"></script>
+  <script src="/app.js" defer></script>
+</head>
+<body data-page="book">
+  <header id="site-header" class="site-header"><a class="logo" href="/">Bookshelf</a></header>
+  <main id="main">
+    <article id="book" class="book">
+      <h1 id="book-title"></h1>
+      <p class="author" id="book-author"></p>
+      <dl>
+        <dt data-i18n="book.year">Year</dt><dd id="book-year"></dd>
+        <dt data-i18n="book.price">Price</dt><dd id="book-price"></dd>
+      </dl>
+      <div class="add">
+        <label for="quantity" data-i18n="book.quantity">Quantity</label>
+        <input id="quantity" type="number" min="1" max="10" step="1" value="1" inputmode="numeric">
+        <button id="add-to-cart" type="button" data-i18n="book.addToCart" disabled>Add to cart</button>
+      </div>
+      <p id="quantity-error" class="error-text" role="alert"></p>
+      <p id="status" class="status" role="status"></p>
+      <p><a href="/" data-i18n="book.back">Back to catalogue</a></p>
+    </article>
+  </main>
+  <footer class="site-footer"><p data-i18n="app.tagline">A training bookshop. Fake data only.</p></footer>
+</body>
+</html>

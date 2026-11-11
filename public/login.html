@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign in - Bookshelf</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app-config.js"></script>
+  <script src="/app.js" defer></script>
+</head>
+<body data-page="login">
+  <header id="site-header" class="site-header"><a class="logo" href="/">Bookshelf</a></header>
+  <main id="main">
+    <h1 data-i18n="login.title">Sign in</h1>
+    <form id="login-form" class="login-form" novalidate>
+      <div class="field">
+        <label for="login-email" data-i18n="login.email">Email</label>
+        <input id="login-email" name="email" type="email" autocomplete="username">
+      </div>
+      <div class="field">
+        <label for="login-password" data-i18n="login.password">Password</label>
+        <input id="login-password" name="password" type="password" autocomplete="current-password">
+      </div>
+      <button type="submit" data-i18n="login.submit">Sign in</button>
+    </form>
+    <p id="login-message" class="error-text" role="alert"></p>
+    <p data-i18n="login.or">or</p>
+    <button id="guest" type="button" data-i18n="login.guest">Continue as guest</button>
+    <p id="guest-ready" hidden><span data-i18n="login.guestReady">You are shopping as a guest.</span>
+      <a href="/" data-i18n="login.browse">Browse books</a></p>
+  </main>
+  <footer class="site-footer"><p data-i18n="app.tagline">A training bookshop. Fake data only.</p></footer>
+</body>
+</html>

@@ -1,0 +1,41 @@
+[
+  {
+    "id": "ORD-1001",
+    "userId": "u_001",
+    "status": "received",
+    "deliveryOption": "standard",
+    "address": {
+      "fullName": "Reader One",
+      "email": "reader.one@example.com",
+      "street": "1 Example Street",
+      "city": "Sampletown",
+      "postcode": "00001"
+    },
+    "lines": [
+      { "bookId": 1, "title": "Frankenstein", "quantity": 1, "unitPriceCents": 1250, "lineTotalCents": 1250 },
+      { "bookId": 2, "title": "Pride and Prejudice", "quantity": 1, "unitPriceCents": 1750, "lineTotalCents": 1750 }
+    ],
+    "promoCode": null,
+    "totals": { "subtotalCents": 3000, "discountCents": 0, "deliveryCents": 490, "totalCents": 3490, "currency": "EUR" },
+    "createdAt": "2026-11-03T09:14:11.302Z"
+  },
+  {
+    "id": "ORD-1002",
+    "userId": "u_002",
+    "status": "received",
+    "deliveryOption": "standard",
+    "address": {
+      "fullName": "Reader Two",
+      "email": "reader.two@example.com",
+      "street": "2 Sample Road",
+      "city": "Testville",
+      "postcode": "00002"
+    },
+    "lines": [
+      { "bookId": 3, "title": "Moby-Dick", "quantity": 1, "unitPriceCents": 1501, "lineTotalCents": 1501 }
+    ],
+    "promoCode": null,
+    "totals": { "subtotalCents": 1501, "discountCents": 0, "deliveryCents": 490, "totalCents": 1991, "currency": "EUR" },
+    "createdAt": "2026-11-03T09:18:40.511Z"
+  }
+]

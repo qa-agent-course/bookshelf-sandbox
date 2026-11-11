@@ -1,0 +1,15 @@
+2026-11-03T09:12:01.004Z INFO  server started port=3000 jitterMs=800 fixed=false
+2026-11-03T09:12:40.218Z INFO  req=a1f3 POST /api/auth/login 200 34ms user=u_001 email=reader.one@example.com
+2026-11-03T09:13:02.551Z INFO  req=a1f9 POST /api/cart/items 201 12ms user=u_001 bookId=1 qty=1
+2026-11-03T09:13:05.090Z INFO  req=a1fa POST /api/cart/items 201 11ms user=u_001 bookId=2 qty=1
+2026-11-03T09:13:20.774Z INFO  req=a201 GET /api/cart 200 640ms user=u_001 subtotal=3000 delivery=490 total=3490
+2026-11-03T09:14:11.302Z INFO  req=a20c POST /api/orders 201 512ms user=u_001 order=ORD-1001 total=3490
+2026-11-03T09:20:47.913Z INFO  req=a2b0 POST /api/auth/login 200 29ms user=u_002 email=reader.two@example.com
+2026-11-03T09:21:15.006Z DEBUG req=a2b4 headers authorization="Bearer sbx_FAKE_7d1c0e9a" user-agent="Mozilla/5.0 (sandbox)"
+2026-11-03T09:21:15.040Z INFO  req=a2b4 GET /api/orders/ORD-1001 200 9ms user=u_002 orderOwner=u_001
+2026-11-03T09:25:31.660Z INFO  req=a2d1 POST /api/cart/promo 200 8ms user=u_002 code=WELCOME10
+2026-11-03T09:25:39.118Z INFO  req=a2d4 POST /api/cart/promo 200 7ms user=u_002 code=BOOKS5 discountTotal=750
+2026-11-03T09:26:58.402Z INFO  req=a2e0 POST /api/orders 201 509ms user=u_002 order=ORD-1003 total=2240
+2026-11-03T09:26:58.547Z INFO  req=a2e1 POST /api/orders 201 503ms user=u_002 order=ORD-1004 total=2240
+2026-11-03T09:27:10.880Z WARN  req=a2e9 GET /api/books 200 1790ms slow request q=moby
+2026-11-03T09:30:02.115Z ERROR req=a2f3 POST /api/cart/items 400 3ms user=g_017 error=BOOK_NOT_FOUND bookId=99

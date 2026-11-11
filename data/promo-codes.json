@@ -1,0 +1,4 @@
+[
+  { "code": "WELCOME10", "type": "percent", "percent": 10, "minSubtotalCents": 0 },
+  { "code": "BOOKS5", "type": "fixed", "amountCents": 500, "minSubtotalCents": 2500 }
+]

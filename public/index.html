@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Catalogue - Bookshelf</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app-config.js"></script>
+  <script src="/app.js" defer></script>
+</head>
+<body data-page="catalogue">
+  <header id="site-header" class="site-header"><a class="logo" href="/">Bookshelf</a></header>
+  <main id="main">
+    <h1 data-i18n="catalogue.title">Catalogue</h1>
+    <div class="search">
+      <label for="search" data-i18n="catalogue.search">Search books</label>
+      <input id="search" type="search" maxlength="100" autocomplete="off">
+    </div>
+    <div id="no-results" class="no-results" hidden>
+      <p data-i18n="catalogue.noResults">No books found</p>
+      <a id="clear-search" href="/" data-i18n="catalogue.clear">Clear search</a>
+    </div>
+    <section id="book-list" class="book-list" aria-live="polite">
+      <p data-i18n="catalogue.loading">Loading books...</p>
+    </section>
+  </main>
+  <footer class="site-footer"><p data-i18n="app.tagline">A training bookshop. Fake data only.</p></footer>
+</body>
+</html>

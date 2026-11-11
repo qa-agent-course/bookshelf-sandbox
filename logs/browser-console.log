@@ -1,0 +1,5 @@
+[info]  app.js:12 Bookshelf UI loaded, lang=en
+[warn]  app.js:88 i18n: missing key "book.addToCart" for lang=uk, falling back to en
+[error] checkout.html:1 Failed to load resource: the server responded with a status of 400 (Bad Request) /api/orders
+[info]  app.js:141 order placed ORD-1003
+[info]  app.js:141 order placed ORD-1004

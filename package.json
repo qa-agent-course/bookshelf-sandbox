@@ -1,0 +1,23 @@
+{
+  "name": "bookshelf-sandbox",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Bookshelf: a tiny training bookshop for the course \"Your QA agent from zero\". Fake data only, runs locally.",
+  "engines": {
+    "node": ">=22.9"
+  },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server/index.js",
+    "test:e2e": "playwright test",
+    "test:e2e:5": "playwright test --repeat-each=5",
+    "reset": "node server/reset-logs.js",
+    "check:openapi": "node scripts/check-openapi.js"
+  },
+  "dependencies": {
+    "express": "^5.3.0"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
+    "@playwright/test": "1.60.0"
+  }
+}

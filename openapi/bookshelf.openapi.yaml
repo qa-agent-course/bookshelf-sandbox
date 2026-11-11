@@ -1,0 +1,396 @@
+openapi: 3.1.0
+info:
+  title: Bookshelf sandbox API
+  version: 1.0.0
+  description: >
+    Training API for the course "Your QA agent from zero".
+    Fake data only. Runs locally. Do not deploy to the internet.
+servers:
+  - url: http://localhost:3000
+tags:
+  - name: health
+  - name: books
+  - name: auth
+  - name: cart
+  - name: orders
+paths:
+  /api/health:
+    get:
+      tags: [health]
+      operationId: getHealth
+      responses:
+        '200':
+          description: Server is up
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [status]
+                properties:
+                  status: { type: string, const: ok }
+  /api/books:
+    get:
+      tags: [books]
+      operationId: listBooks
+      parameters:
+        - name: q
+          in: query
+          description: Case-insensitive search in title and author. Empty returns all.
+          schema: { type: string, maxLength: 100 }
+        - name: page
+          in: query
+          schema: { type: integer, minimum: 1, default: 1 }
+        - name: limit
+          in: query
+          schema: { type: integer, minimum: 1, maximum: 50, default: 20 }
+      responses:
+        '200':
+          description: A page of books
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/BookList' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+  /api/books/{bookId}:
+    get:
+      tags: [books]
+      operationId: getBook
+      parameters:
+        - $ref: '#/components/parameters/BookId'
+      responses:
+        '200':
+          description: The book
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Book' }
+        '404': { $ref: '#/components/responses/NotFound' }
+  /api/auth/login:
+    post:
+      tags: [auth]
+      operationId: login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/LoginRequest' }
+      responses:
+        '200':
+          description: Signed in
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/TokenResponse' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+  /api/auth/guest:
+    post:
+      tags: [auth]
+      operationId: createGuestSession
+      responses:
+        '201':
+          description: Guest session created
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/TokenResponse' }
+  /api/cart:
+    get:
+      tags: [cart]
+      operationId: getCart
+      security: [ { bearerAuth: [] } ]
+      responses:
+        '200':
+          description: Current cart
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Cart' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+  /api/cart/items:
+    post:
+      tags: [cart]
+      operationId: addCartItem
+      security: [ { bearerAuth: [] } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/AddItemRequest' }
+      responses:
+        '201':
+          description: Item added, returns the updated cart
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Cart' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+  /api/cart/items/{bookId}:
+    parameters:
+      - $ref: '#/components/parameters/BookId'
+    patch:
+      tags: [cart]
+      operationId: updateCartItem
+      security: [ { bearerAuth: [] } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/QuantityRequest' }
+      responses:
+        '200':
+          description: Updated cart
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Cart' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+    delete:
+      tags: [cart]
+      operationId: removeCartItem
+      security: [ { bearerAuth: [] } ]
+      responses:
+        '200':
+          description: Updated cart
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Cart' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+  /api/cart/promo:
+    post:
+      tags: [cart]
+      operationId: applyPromo
+      security: [ { bearerAuth: [] } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [code]
+              properties:
+                code: { type: string, minLength: 1, maxLength: 20 }
+      responses:
+        '200':
+          description: Promo applied, returns the updated cart
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Cart' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '409':
+          description: A promo code is already applied to this cart
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+    delete:
+      tags: [cart]
+      operationId: removePromo
+      security: [ { bearerAuth: [] } ]
+      responses:
+        '200':
+          description: Promo removed
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Cart' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+  /api/orders:
+    get:
+      tags: [orders]
+      operationId: listOrders
+      security: [ { bearerAuth: [] } ]
+      responses:
+        '200':
+          description: Orders of the signed-in user only
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/Order' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+    post:
+      tags: [orders]
+      operationId: placeOrder
+      security: [ { bearerAuth: [] } ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PlaceOrderRequest' }
+      responses:
+        '201':
+          description: Order created, cart emptied
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Order' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '409':
+          description: Cart is empty or the order was already placed
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+  /api/orders/{orderId}:
+    get:
+      tags: [orders]
+      operationId: getOrder
+      security: [ { bearerAuth: [] } ]
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema: { type: string, pattern: '^ORD-[0-9]{4,}$' }
+      responses:
+        '200':
+          description: The order, only if it belongs to the signed-in user
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Order' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404':
+          description: No such order for this user (also returned for orders of other users)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Opaque token from /api/auth/login or /api/auth/guest. Expires after 60 minutes.
+  parameters:
+    BookId:
+      name: bookId
+      in: path
+      required: true
+      schema: { type: integer, minimum: 1 }
+  responses:
+    BadRequest:
+      description: Invalid input
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+    Unauthorized:
+      description: Missing, invalid or expired token
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+    NotFound:
+      description: Not found
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+  schemas:
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code: { type: string, examples: [VALIDATION_ERROR] }
+            message: { type: string }
+    Book:
+      type: object
+      required: [id, title, author, year, priceCents, currency]
+      properties:
+        id: { type: integer, minimum: 1 }
+        title: { type: string }
+        author: { type: string }
+        year: { type: integer }
+        priceCents: { type: integer, minimum: 0, examples: [1250] }
+        currency: { type: string, const: EUR }
+    BookList:
+      type: object
+      required: [items, page, limit, total]
+      properties:
+        items:
+          type: array
+          items: { $ref: '#/components/schemas/Book' }
+        page: { type: integer }
+        limit: { type: integer }
+        total: { type: integer }
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email: { type: string, format: email }
+        password: { type: string, minLength: 1, writeOnly: true }
+    TokenResponse:
+      type: object
+      required: [token, expiresInSeconds, role]
+      properties:
+        token: { type: string }
+        expiresInSeconds: { type: integer, examples: [3600] }
+        role: { type: string, enum: [user, guest] }
+    AddItemRequest:
+      type: object
+      required: [bookId, quantity]
+      properties:
+        bookId: { type: integer, minimum: 1 }
+        quantity: { $ref: '#/components/schemas/Quantity' }
+    QuantityRequest:
+      type: object
+      required: [quantity]
+      properties:
+        quantity: { $ref: '#/components/schemas/Quantity' }
+    Quantity:
+      type: integer
+      minimum: 1
+      maximum: 10
+      description: Whole number of copies of one book, 1 to 10.
+    CartLine:
+      type: object
+      required: [bookId, title, quantity, unitPriceCents, lineTotalCents]
+      properties:
+        bookId: { type: integer }
+        title: { type: string }
+        quantity: { $ref: '#/components/schemas/Quantity' }
+        unitPriceCents: { type: integer }
+        lineTotalCents: { type: integer }
+    Totals:
+      type: object
+      required: [subtotalCents, discountCents, deliveryCents, totalCents, currency]
+      properties:
+        subtotalCents: { type: integer, minimum: 0 }
+        discountCents: { type: integer, minimum: 0 }
+        deliveryCents: { type: integer, minimum: 0 }
+        totalCents: { type: integer, minimum: 0 }
+        currency: { type: string, const: EUR }
+    Cart:
+      type: object
+      required: [lines, itemCount, promoCode, totals]
+      properties:
+        lines:
+          type: array
+          items: { $ref: '#/components/schemas/CartLine' }
+        itemCount: { type: integer, minimum: 0, description: Sum of quantities }
+        promoCode: { type: [string, 'null'] }
+        deliveryOption: { type: string, enum: [standard, pickup], default: standard }
+        totals: { $ref: '#/components/schemas/Totals' }
+    Address:
+      type: object
+      required: [fullName, email, street, city, postcode]
+      properties:
+        fullName: { type: string, minLength: 2, maxLength: 80 }
+        email: { type: string, format: email }
+        street: { type: string, minLength: 2, maxLength: 120 }
+        city: { type: string, minLength: 2, maxLength: 60 }
+        postcode: { type: string, minLength: 3, maxLength: 10 }
+    PlaceOrderRequest:
+      type: object
+      required: [address, deliveryOption]
+      properties:
+        address: { $ref: '#/components/schemas/Address' }
+        deliveryOption: { type: string, enum: [standard, pickup] }
+    Order:
+      type: object
+      required: [id, userId, status, lines, totals, createdAt]
+      properties:
+        id: { type: string, examples: [ORD-1001] }
+        userId: { type: string, examples: [u_001] }
+        status: { type: string, enum: [received] }
+        lines:
+          type: array
+          items: { $ref: '#/components/schemas/CartLine' }
+        totals: { $ref: '#/components/schemas/Totals' }
+        createdAt: { type: string, format: date-time }

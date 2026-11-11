@@ -1,0 +1,10 @@
+[
+  { "id": 1, "title": "Frankenstein", "author": "Mary Shelley", "year": 1818, "priceCents": 1250, "currency": "EUR" },
+  { "id": 2, "title": "Pride and Prejudice", "author": "Jane Austen", "year": 1813, "priceCents": 1750, "currency": "EUR" },
+  { "id": 3, "title": "Moby-Dick", "author": "Herman Melville", "year": 1851, "priceCents": 1501, "currency": "EUR" },
+  { "id": 4, "title": "Dracula", "author": "Bram Stoker", "year": 1897, "priceCents": 1100, "currency": "EUR" },
+  { "id": 5, "title": "The Time Machine", "author": "H. G. Wells", "year": 1895, "priceCents": 999, "currency": "EUR" },
+  { "id": 6, "title": "Alice's Adventures in Wonderland", "author": "Lewis Carroll", "year": 1865, "priceCents": 850, "currency": "EUR" },
+  { "id": 7, "title": "The Picture of Dorian Gray", "author": "Oscar Wilde", "year": 1890, "priceCents": 1000, "currency": "EUR" },
+  { "id": 8, "title": "Kobzar", "author": "Taras Shevchenko", "year": 1840, "priceCents": 1500, "currency": "EUR" }
+]

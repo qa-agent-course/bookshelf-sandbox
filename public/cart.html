@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cart - Bookshelf</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app-config.js"></script>
+  <script src="/app.js" defer></script>
+</head>
+<body data-page="cart">
+  <header id="site-header" class="site-header"><a class="logo" href="/">Bookshelf</a></header>
+  <main id="main">
+    <h1 data-i18n="cart.title">Your cart</h1>
+    <div id="cart"></div>
+    <section id="cart-summary" class="cart-summary" hidden>
+      <form id="promo-form" class="promo" novalidate>
+        <label for="promo" data-i18n="cart.promo">Promo code</label>
+        <input id="promo" name="code" maxlength="20" autocomplete="off">
+        <button type="submit" data-i18n="cart.apply">Apply</button>
+      </form>
+      <p id="promo-message" class="error-text" role="alert"></p>
+      <p id="promo-applied" hidden><span id="promo-applied-text"></span>
+        <button type="button" id="remove-promo" data-i18n="cart.removePromo">Remove promo code</button></p>
+      <dl class="totals">
+        <dt data-i18n="cart.subtotal">Subtotal</dt><dd id="subtotal"></dd>
+        <dt data-i18n="cart.discount">Discount</dt><dd id="discount"></dd>
+        <dt data-i18n="cart.total">Total</dt><dd id="total"></dd>
+      </dl>
+      <p id="delivery" class="delivery"></p>
+      <p id="free-delivery-hint" class="hint"></p>
+      <p id="item-count-text"></p>
+      <p><a class="button" href="/checkout" data-i18n="cart.checkout">Go to checkout</a></p>
+    </section>
+  </main>
+  <footer class="site-footer"><p data-i18n="app.tagline">A training bookshop. Fake data only.</p></footer>
+</body>
+</html>
